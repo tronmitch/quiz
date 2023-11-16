@@ -3,8 +3,13 @@
 }
 
 header{
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
+}
+#time{
+    display: inline;
+    justify-content: right;
+    color: blue
 }
 section{
     display: flex;
@@ -43,4 +48,9 @@ section{
     justify-content : center;
     list-style: black;
     display : block;
+  }
+  li:hover{
+    background: #a27ba8;
+    cursor: pointer;
+    /* border: 3px solid #523e55; */
   }
