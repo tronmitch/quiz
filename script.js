@@ -1,13 +1,29 @@
 var question = document.querySelector("#question");
 var questionOptions = document.querySelector("#question-options");
-var intro = document.querySelector("#intro-box");
+var intro = document.querySelector("#intro-statement");
 var li = document.querySelectorAll("li")
+var startButton = document.querySelector("#start-button")
+var enterButton = document.querySelector('#enter-button')
+var playAgainButton = document.querySelector('#play-again-button')
+var clearButton = document.querySelector('#clear-button')
+var intialsField = document.querySelector('#initials-field')
+var EnterButtonInitialsField = document.querySelector('#enter-button-initials-field')
+var time = document.querySelector('#time');
+
+                
+      
+
+//Hide the elements that will be used later
+hide(time)
+hide(EnterButtonInitialsField)
+hide(playAgainButton)
+hide(clearButton)
 for(let i = 0; i<li.length; i++){
     li[i].style.display = "none"
 }
-var time = document.querySelector('#time');
-time.style.display ="none"
-// var button = document.querySelector("#button");
+
+
+// Create an object of questions/responses/answers that can be cycled through later
 var questions = {
     q1: "Commonly Used data types DO NOT include",
     r1: ['strings', 'booleans', 'alerts', 'numbers'],
@@ -26,24 +42,93 @@ var questions = {
     a5:'console.log'
 }
 
-var startButton = document.querySelector("#start-button")
-
-
+//Start the quiz and display the questions/responses
 startButton.addEventListener("click", function(e){
     // e.defaultPrevented
-    startTimer();
+    startTimer()
     //Hides the intro text and start button
-    document.querySelector('.intro-box').style.display = "none";
-    document.querySelector("#start-button").style.visibility = 'hidden'
+    hide(intro)
+    hide(startButton)
 
     //Show question buttons and timer
-    time.style.display ="inline"
+    show(time, 'inline')
+    show(question, 'block')
     for(let i = 0; i<li.length; i++){
         li[i].style.display = "block"
+        // show(li[i])
     }
     e.stopPropagation();
     nextQuestion();
     
+})
+
+
+var highScoreList = document.getElementById("scores-element")
+var highScores = JSON.parse(localStorage.getItem("highScores")) || []
+enterButton.addEventListener("click", function(e){
+    e.defautlPrevented
+    var intitialsEntered = intialsField.value
+    
+    
+    show(clearButton, 'block')
+    show(playAgainButton, 'block')
+    show(highScoreList, 'block')
+    hide(EnterButtonInitialsField)
+    var highScore = {
+        initials:intitialsEntered,
+        score:finalSecondsLeft
+    }
+    highScoreList.innerHTML = ""
+    highScores.push(highScore)
+    var keyToSortBy = 'score'
+    highScores.sort(function(a,b){
+        return b[keyToSortBy] - a[keyToSortBy]
+    })
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    for (let i =0; i<highScores.length; i++){
+        var scores =  document.createElement('p')
+        scores.innerHTML = highScores[i].initials + " Time: " + highScores[i].score
+        if (i%2 == 1){
+            scores.style.backgroundColor =  'rgb(254, 250, 255)'
+        }else{
+            scores.style.backgroundColor =  '#f5ebf7'
+        }
+        scores.style.padding = "7px 55px 7px"
+        scores.style.fontSize = "15px"
+        scores.style.margin = "1px"
+
+        highScoreList.appendChild(scores) 
+    }
+    e.preventDefault()
+    e.stopPropagation
+})
+
+
+var playAgainButton = document.querySelector('#play-again-button')
+playAgainButton.addEventListener("click",function(e){
+    e.defaultPrevented
+    for(let i = 0; i<highScoreList.length; i++){
+        hide(highScoreList[[i]])
+    }
+    //Reset values to default
+    hide(playAgainButton)
+    hide(clearButton)
+    hide(question)
+    hide(highScoreList)
+    show(intro, 'block')
+    show(startButton, 'block')
+    counter = 1
+    secondsLeft = 60
+    finalSecondsLeft = null
+    penalty = false
+})
+
+var clearButton = document.querySelector('#clear-button')
+clearButton.addEventListener('click',function(e){
+    e.defautlPrevented
+    highScoreList.innerHTML = "" 
+    localStorage.clear()
+    highScores = []
 })
 
 var counter = 1
@@ -68,7 +153,6 @@ function nextQuestion(event){
         }else{
             result = "Incorrect"
             penalty = true
-            adjustTimer()
         }
         console.log(result)
     }
@@ -81,44 +165,52 @@ function nextQuestion(event){
         liArray[i].innerHTML = responseArray[i];
         questionOptions.appendChild(li[i]);
     }
-    
- 
     counter++
-    return counter
+    return
 }
+
+var penalty = false
+var secondsLeft = 60
+var finalSecondsLeft = null
 function endQuiz(){
     for(let i = 0; i<li.length; i++){
         li[i].style.display = "none"
     }
     question.innerHTML = "Thanks for taking the Quiz"
+    time.textContent = "TIME: 0";
+    if(!finalSecondsLeft){
+        finalSecondsLeft = secondsLeft;
+    }
+    if (finalSecondsLeft<0){
+        finalSecondsLeft = 0
+    }
+    
+    secondsLeft = 0;
+    // intialsInput.style.display = "inline"
+    show(EnterButtonInitialsField, 'block')
 }
-var secondsLeft = 60
+
 function startTimer(){
     var timerInterval = setInterval(function() {
-        time.textContent = "TIME:"  + secondsLeft;
-        secondsLeft--;
-        if (secondsLeft === 0){
+        if (penalty){
+            secondsLeft = (secondsLeft-10)
+            time.textContent = "TIME:"  + secondsLeft;
+            penalty = false
+        } else {
+            secondsLeft--;
+            time.textContent = "TIME:"  + secondsLeft;
+        }
+        if (secondsLeft <= 0){
             endQuiz()
             clearInterval(timerInterval);
+            time.textContent = "TIME: 0";
         }
     },1000)
 }
 
-var penalty  =  false
-
-    function adjustTimer(){
-        var timerInterval = setInterval(function(){
-            if(penalty){
-            secondsLeft = (secondsLeft-10)
-            time.textContent = "TIME:"  + secondsLeft;
-            if (secondsLeft <= 0){
-                endQuiz()
-                clearInterval(timerInterval);
-            }
-            penalty = false
-            return
-        }
-        })
-    }
-
-
+function hide(element) {
+    element.style.display = 'none'
+ }
+ function show(element, displayType) {
+    element.style.display = displayType
+ }

@@ -9,7 +9,8 @@ header{
 #time{
     display: inline;
     justify-content: right;
-    color: blue
+    color: rgb(103, 103, 255);
+    font-size: 25px
 }
 section{
     display: flex;
@@ -32,12 +33,13 @@ section{
     width: fit-content;
     font-size: x-large;
 }
-.intro-box {
+#intro-statement {
     inline-size: 500px;
     overflow: hidden;
     font-size: 27px;
+    margin: 0px;
   }
-  li{
+  .button-style{
     background: #8E6D94;
     margin: 10px;
     padding: 10px;
@@ -49,8 +51,61 @@ section{
     list-style: black;
     display : block;
   }
-  li:hover{
+  .button-style:hover{
     background: #a27ba8;
     cursor: pointer;
     /* border: 3px solid #523e55; */
   }
+
+
+  input {
+    background-color: #f1f3f4;
+    border-radius: 2px;
+    border-width: 1px;
+    font-size: 1em;
+    line-height: 20px;
+    margin: 0;
+    /* margin-top: 10px; */
+    max-width: 20%;
+    padding: 8px 8px 8px 8px;
+    transition-delay: 0s, 0s;
+    transition-duration: 0.2s, 0.2s;
+    transition-property: background-color, color;
+    transition-timing-function: ease, ease;
+    vertical-align: middle;
+    width: 70px;
+    height: 20px;
+    border-radius: 3px;
+  }
+  
+  input:hover {
+    background-color: #e8eaed;
+  }
+
+#initials-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 70px;
+}
+#initials{
+    width: 100px;
+}
+/* #hide-intials{
+    border: 2px solid black
+} */
+
+.test{
+    padding: 10px 30px 10px;
+    color: rgb(5, 5, 5);
+    display: inline-block;
+    /* left: 10px; */
+    font-size: 15px;
+    width: 200px;
+    background-color: #f1f3f4;
+    margin: 1px;
+}
+#scores-element:nth-col(1){
+    background-color: rgb(244, 240, 245);
+}

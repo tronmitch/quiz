@@ -10,18 +10,37 @@
     <header><h1>Coding Quiz Challange <span id="time">Time:</span></h1> </header>
     
     <section>
-        <p class="intro-box">Try to answer the following code-related questions within the time limit. 
+        <p id="intro-statement">Try to answer the following code-related questions within the time limit. 
             Keep in mind that incorrect answers will penalize you score/time by ten seconds</p>
-        <span id = "question"></span>
-        
+
+            <span id = "question"></span>
             <ol id="question-options">
-                <li onclick="nextQuestion(event)" id = 'resp-1'></li>
-                <li onclick="nextQuestion(event)" id = 'resp-2'></li>
-                <li onclick="nextQuestion(event)" id = 'resp-3'></li>
-                <li onclick="nextQuestion(event)" id = 'resp-4'></li>
+                <li class="button-style" onclick="nextQuestion(event)" id = 'resp-1'></li>
+                <li class="button-style" onclick="nextQuestion(event)" id = 'resp-2'></li>
+                <li class="button-style" onclick="nextQuestion(event)" id = 'resp-3'></li>
+                <li class="button-style" onclick="nextQuestion(event)" id = 'resp-4'></li>
             </ol>
-            <button id = "start-button" type="button">Start</button>
+     
+            <p class="my-button button-style" id = "start-button" type="button">Start</p>
+    <div id ="enter-button-initials-field" border="1px solid black">
+    <div id="initials-block">
+        <h3>Enter your Initals</h3>
+        <input type="input" name="initials" id="initials-field" placeholder="initials" maxlength="3"/>
+    </div>
+    <p id = "enter-button" class="button-style">Enter</p><br><br>
+    </div>
+    
+   
+    <span id='scores-element'> 
+        <!-- <p class='test'>asdf Time 90</p>
+    <p class='test'>asdf Time 90</p>  -->
+</span>
+    <div id ="play-again-clear-section">
+    <p id='play-again-button' class="button-style">Play again</p> 
+    <p id='clear-button' class="button-style">Clear scores</p><br><br>
+    </div>
     </section>
+</section>     
     
     <script src="script.js"></script>
 </body>
